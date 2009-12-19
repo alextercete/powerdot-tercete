@@ -1,0 +1,129 @@
+%% ---------------------------------------------------------------
+%% Copyright (C) 2005-2006 Hendri Adriaens and Christopher Ellison
+%% ---------------------------------------------------------------
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2003/12/01 or later.
+%%
+%% This work has the LPPL maintenance status "maintained".
+%%
+%% This Current Maintainer of this work is Hendri Adriaens.
+%%
+%% This work consists of all files listed in manifest.txt.
+%%
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{powerdot-tercete}[2009/09/07]
+\RequirePackage{pifont}
+\RequirePackage{ifthen}
+
+%%% Creates the logobox width length
+\newlength{\logoboxwidth}
+
+%------------------------------------------------------------------ Creates the palettes
+% COLOURS:
+% pdcolor1: Foreground
+% pdcolor2: Title slide and header background
+% pdcolor3: Title slide and header foreground
+% pdcolor4: Footer foreground
+% pdcolor5: Background
+% pdcolor6: Inative foreground
+%
+\pddefinepalettes{moody-blues}{
+    \definecolor{pdcolor1}{rgb}{1.0,1.0,1.0}
+    \definecolor{pdcolor2}{rgb}{.18,.47,.63}
+    \definecolor{pdcolor3}{rgb}{.69,.82,.86}
+    \definecolor{pdcolor4}{rgb}{.61,.74,.78}
+    \definecolor{pdcolor5}{rgb}{.14,.25,.31}
+    \definecolor{pdcolor6}{rgb}{.25,.43,.52}
+}{woods}{
+    \definecolor{pdcolor1}{rgb}{1.0,1.0,1.0}
+    \definecolor{pdcolor2}{rgb}{.47,.51,.40}
+    \definecolor{pdcolor3}{rgb}{.89,.86,.75}
+    \definecolor{pdcolor4}{rgb}{.72,.74,.66}
+    \definecolor{pdcolor5}{rgb}{.28,.25,.22}
+    \definecolor{pdcolor6}{rgb}{.44,.39,.34}
+}{marine}{
+    \definecolor{pdcolor1}{rgb}{1.0,1.0,1.0}
+    \definecolor{pdcolor2}{rgb}{.65,.33,.30}
+    \definecolor{pdcolor3}{rgb}{.79,.80,.85}
+    \definecolor{pdcolor4}{rgb}{.94,.85,.81}
+    \definecolor{pdcolor5}{rgb}{.27,.34,.44}
+    \definecolor{pdcolor6}{rgb}{.40,.47,.56}
+}
+
+%------------------------------------------------------ Defines the title slide template
+\pddefinetemplate{titleslide}{
+    titlefont=\LARGE\bfseries\centering\color{pdcolor3},
+    texthook=t,textpos={.5\slidewidth,.75\slideheight},
+    textwidth=.9\slidewidth,textfont=\large\centering,
+    textheight=.6\slideheight
+}{%
+    %--- Inserts the background
+    \psframe*[linecolor=pdcolor2,linewidth=0pt](0,0)(\slidewidth,\slideheight)%
+    %--- Inserts the logo
+    \settowidth{\logoboxwidth}{\usebox\pd@logobox}%
+    \ifthenelse{\logoboxwidth > 0}{%
+        \rput[B](.5\slidewidth,.17\slideheight){\resizebox{!}{1.1cm}{\usebox\pd@logobox}}%
+    }{}%
+}
+
+%---------------------------------------------- Defines the basic content slide template
+\pddefinetemplate{basic}{
+  lfpos={.015\slidewidth,.018\slideheight},
+  lffont=\tiny\color{pdcolor4},
+  rfpos={.985\slidewidth,.018\slideheight},
+  rffont=\tiny\color{pdcolor4}
+}{%
+    %--- Inserts the background
+    \psframe*[linecolor=pdcolor5,linewidth=0pt](0,0)(\slidewidth,\slideheight)%
+    %--- Draws the footer line
+    \psline[linewidth=.5pt,linecolor=pdcolor4]%
+        (.01\slidewidth,.05\slideheight)(.99\slidewidth,.05\slideheight)%
+}
+
+%---------------------------------------------------- Defines the section slide template
+\pddefinetemplate[basic]{sectionslide}{
+    titlefont=\huge\bfseries\centering\color{pdcolor3},
+    titlepos={.1\slidewidth,.55\slideheight},
+    titlewidth=.8\slidewidth
+}{}
+\setkeys[pd]{section}{sectemp=sectionslide}
+
+%----------------------------------------------------- Defines the normal slide template
+\pddefinetemplate[basic]{slide}{
+    titlefont=\large\bfseries\raggedleft\color{pdcolor3},
+    titlepos={.2\slidewidth,.935\slideheight}, 
+    titlewidth=.775\slidewidth,
+    texthook=t,textpos={.5\slidewidth,.84\slideheight},
+    textwidth=.92\slidewidth,textfont=\large\raggedright,
+    textheight=.6\slideheight,
+    iacolor=pdcolor6
+}{%
+    %--- Inserts the header's background
+    \psframe*[linecolor=pdcolor2,linewidth=0pt]%
+        (0,\slideheight)(\slidewidth,.9\slideheight)%
+    %--- Inserts the logo
+    \settowidth{\logoboxwidth}{\usebox\pd@logobox}%
+    \ifthenelse{\logoboxwidth > 0}{%
+        \rput[l](.02\slidewidth,.95\slideheight){\resizebox{!}{0.65cm}{\usebox\pd@logobox}}%
+    }{}%
+}
+
+%---------------------------------------------------------- Changes aspects of the lists
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$-$}
+\renewcommand{\labelitemiii}{$\ast$}
+
+\pdsetup{
+    list={labelsep=1em,leftmargin=*,itemsep=0pt,topsep=5pt,parsep=0pt}
+}
+
+%--- Uses the font iwona for the entire style
+\usepackage{iwona}
+
+\endinput
