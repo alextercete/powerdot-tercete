@@ -58,8 +58,8 @@
 
 %------------------------------------------------------ Defines the title slide template
 \pddefinetemplate{titleslide}{
-    titlefont=\LARGE\bfseries\centering\color{pdcolor3},
-    texthook=t,textpos={.5\slidewidth,.75\slideheight},
+    titlefont=\vspace{\stretch{1}}\LARGE\bfseries\centering\color{pdcolor3},
+    texthook=b,textpos={.5\slidewidth,.34\slideheight},
     textwidth=.9\slidewidth,textfont=\large\centering,
     textheight=.6\slideheight
 }{%
@@ -112,6 +112,16 @@
     \ifthenelse{\logoboxwidth > 0}{%
         \rput[l](.02\slidewidth,.95\slideheight){\resizebox{!}{0.65cm}{\usebox\pd@logobox}}%
     }{}%
+}
+
+%-------------------------------------------------------- Defines the wide slide template
+\pddefinetemplate{wideslide}{
+  texthook=c,textpos={.5\slidewidth,.5\slideheight},
+  textwidth=.975\slidewidth,textfont=\normalsize\raggedright,
+  textheight=\slideheight
+}{%
+    %--- Inserts the background
+    \psframe*[linecolor=pdcolor5,linewidth=0pt](0,0)(\slidewidth,\slideheight)%
 }
 
 %---------------------------------------------------------- Changes aspects of the lists
